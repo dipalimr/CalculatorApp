@@ -1,8 +1,6 @@
 import React, { useState } from 'react'; 
-import { GestureResponderEvent } from 'react-native';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
- // Import vector icons
 
 const App: React.FC = () => {
   const [input, setInput] = useState<string>('');
@@ -18,7 +16,7 @@ const App: React.FC = () => {
         setResult(evalResult);
         setInput(evalResult);
         setShowResultOnly(true);
-        setHistory((prevHistory) => [...prevHistory, input + ' = ' + evalResult]);  // Store history
+        setHistory((prevHistory) => [...prevHistory, input + ' = ' + evalResult]);
       } catch (error) {
         setResult('Error');
         setInput('');
@@ -81,8 +79,8 @@ const App: React.FC = () => {
   };
 
   const clearHistory = () => {
-    setHistory([]); // Clear history
-    setShowHistory(false); // Hide history view
+    setHistory([]);
+    setShowHistory(false);
   };
 
   const buttons: string[] = [
@@ -108,10 +106,6 @@ const App: React.FC = () => {
     '=',
   ];
 
-  function toggleHistory(event: GestureResponderEvent): void {
-    throw new Error('Function not implemented.');
-  }
-
   return (
     <View style={styles.container}>
       {/* Display Section */}
@@ -124,6 +118,11 @@ const App: React.FC = () => {
             <Text style={styles.dynamicResultText}>{result}</Text>
           </>
         )}
+
+        {/* History Icon */}
+        <TouchableOpacity onPress={() => setShowHistory(!showHistory)} style={styles.historyIcon}>
+          <Icon name="history" size={30} color="#fff" />
+        </TouchableOpacity>
       </View>
 
       {/* Button Section */}
@@ -131,7 +130,11 @@ const App: React.FC = () => {
         {buttons.map((button, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.button, button === '=' ? styles.equalButton : {}, button === 'AC' || button === '⌫' ? styles.secondaryButton : {}]}
+            style={[
+              styles.button,
+              button === '=' ? styles.equalButton : {},
+              button === 'AC' || button === '⌫' ? styles.secondaryButton : {},
+            ]}
             onPress={() => handlePress(button)}
           >
             <Text style={styles.buttonText}>{button}</Text>
@@ -139,12 +142,7 @@ const App: React.FC = () => {
         ))}
       </View>
 
-      {/* History Icon and History View */}
-      <TouchableOpacity style={styles.historyIcon} onPress={() => setShowHistory(!showHistory)}>
-        <Icon name="history" size={30} color="#fff" />
-      </TouchableOpacity>
-
-
+      {/* History View */}
       {showHistory && (
         <View style={styles.historyContainer}>
           <View style={styles.historyHeader}>
@@ -174,7 +172,7 @@ const App: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111', // Full black background
+    backgroundColor: '#111',
   },
   display: {
     flex: 2,
@@ -184,15 +182,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
     borderBottomWidth: 1,
     borderBottomColor: '#555',
+    
     position: 'relative',
   },
   inputText: {
     fontSize: 50,
-    color: '#fff', 
+    color: '#fff',
   },
   resultText: {
     fontSize: 50,
-    color: '#fff', 
+    color: '#fff',
   },
   dynamicResultText: {
     fontSize: 30,
@@ -206,30 +205,31 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    paddingBottom: 10,
+    paddingBottom: 80,
+    marginBottom: 60,
   },
   button: {
     width: '22%',
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#333', // Dark gray buttons
+    backgroundColor: '#333',
     margin: 5,
-    borderRadius: 15,
+    borderRadius: 40,
   },
   equalButton: {
-    backgroundColor: '#28a745', // Cyan for "=" button
+    backgroundColor: '#28a745',
   },
   secondaryButton: {
-    backgroundColor: '#ff4d4d', // Vibrant red for "AC" and "⌫"
+    backgroundColor: '#ff4d4d',
   },
   buttonText: {
     fontSize: 30,
-    color: '#fff', // White text for buttons
+    color: '#fff',
   },
   footer: {
     height: 60,
-    backgroundColor: '#222', // Slightly lighter black for footer
+    backgroundColor: '#222',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -239,16 +239,20 @@ const styles = StyleSheet.create({
   },
   historyIcon: {
     position: 'absolute',
-    left: 20,
-    bottom: 550,
+    left: 10,
+    bottom: 10,
     zIndex: 10,
+    backgroundColor: '#222',
+    padding: 5,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  
   historyContainer: {
     position: 'absolute',
-    left: 15, // Positioning from the left
-    bottom: 410, // Adjust this to place the history below the icon
-    width: '70%',
+    left: 15,
+    bottom: 420,
+    width: '80%',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     padding: 10,
     borderRadius: 8,
@@ -278,6 +282,7 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
 
 
 
